@@ -52,6 +52,16 @@ function searchQuery() {
     imagesBox.innerHTML = ''
     getImagesData(searchInput.value)
     console.log(searchInput.value)
+    searchBtn.src = "assets/img/icons/icons8-close-50.png";
+    searchBtn.removeEventListener("click", searchQuery);
+    searchBtn.addEventListener("click", cleanQuery);
+}
+
+function cleanQuery() {
+    searchInput.value = '';
+    searchBtn.src = "assets/img/icons/icons8-search-48.png";
+    searchBtn.removeEventListener("click", cleanQuery);
+    searchBtn.addEventListener("click", searchQuery);
 }
 
 getImagesData();

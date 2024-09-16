@@ -138,6 +138,7 @@ body {
   height: 2.4rem;
   border-radius: 50%;
   margin-left: -4rem;
+  margin-top: 0.45rem;
 }
 
 .search-box {
@@ -181,16 +182,29 @@ body {
   column-gap: 2rem;
   row-gap: 2rem;
   grid-auto-flow: dense;
+  justify-items: center;
+}
+
+.icon-footer {
+  height: 5rem;
 }
 
 .footer {
-  background: transparent;
+  width: clamp(100vw, 100vw, 128rem);
   gap: 5rem;
-  margin: 1rem 0;
+  padding: 1rem 0;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  background-color: #fff;
 }
 
 .header {
   width: clamp(100vw, 100vw, 128rem);
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: #fff;
 }
 
 /*# sourceMappingURL=main.css.map */

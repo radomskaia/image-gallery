@@ -3,6 +3,7 @@
   height: 2.4rem;
   border-radius: 50%;
   margin-left: -4rem;
+  margin-top: 0.45rem;
 }
 
 .search-box {
@@ -23,7 +24,6 @@
 }
 
 .search-input::placeholder {
-  //padding: 0 2rem;
   color: inherit;
   font-size: 1.8rem;
 }

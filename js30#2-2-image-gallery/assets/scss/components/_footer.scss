@@ -1,12 +1,16 @@
-//.icon {
-//  height: 5rem;
-//}
+.icon-footer {
+  height: 5rem;
+}
 
 .footer {
-  background: transparent;
+  width: clamp(100vw, 100vw, 128rem);
   @extend %flex;
   @extend %flex-center;
   gap: 5rem;
-  margin: 1rem 0;
+  padding: 1rem 0;
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+  background-color: #fff;
 }
 
