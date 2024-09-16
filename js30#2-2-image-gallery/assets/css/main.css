@@ -1,0 +1,196 @@
+.footer, .container {
+  display: flex;
+}
+
+.footer, .search-box {
+  align-items: center;
+  justify-content: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex_justify-between {
+  justify-content: space-between;
+}
+
+.span_4 {
+  grid-row: span 4;
+}
+
+.span_5 {
+  grid-row: span 5;
+}
+
+.span_6 {
+  grid-row: span 6;
+}
+
+.span_7 {
+  grid-row: span 7;
+}
+
+.span_8 {
+  grid-row: span 8;
+}
+
+.span_9 {
+  grid-row: span 9;
+}
+
+.span_10 {
+  grid-row: span 10;
+}
+
+.span_11 {
+  grid-row: span 11;
+}
+
+.span_12 {
+  grid-row: span 12;
+}
+
+.span_13 {
+  grid-row: span 13;
+}
+
+.span_14 {
+  grid-row: span 14;
+}
+
+.span_15 {
+  grid-row: span 15;
+}
+
+.span_16 {
+  grid-row: span 16;
+}
+
+.span_17 {
+  grid-row: span 17;
+}
+
+.span_18 {
+  grid-row: span 18;
+}
+
+.span_19 {
+  grid-row: span 19;
+}
+
+.footer, .container {
+  display: flex;
+}
+
+.footer, .search-box {
+  align-items: center;
+  justify-content: center;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: 128rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.footer, .container {
+  display: flex;
+}
+
+.footer, .search-box {
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: #16423C;
+  font-family: "Protest Guerrilla", sans-serif;
+}
+
+.currYear {
+  color: #16423C;
+  font-size: 2.4rem;
+}
+
+.icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  margin-left: -4rem;
+}
+
+.search-box {
+  width: 30rem;
+  height: 4rem;
+  border-radius: 100rem;
+}
+
+.search-input {
+  width: 100%;
+  height: 100%;
+  border-radius: 100rem;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  font-size: 1.8rem;
+}
+
+.search-input::placeholder {
+  color: inherit;
+  font-size: 1.8rem;
+}
+
+.img-wrapper {
+  overflow: hidden;
+  width: 100%;
+  height: fit-content;
+  border-radius: 1rem;
+}
+
+.img-item {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 2rem;
+  row-gap: 2rem;
+  grid-auto-flow: dense;
+}
+
+.footer {
+  background: transparent;
+  gap: 5rem;
+  margin: 1rem 0;
+}
+
+.header {
+  width: clamp(100vw, 100vw, 128rem);
+}
+
+/*# sourceMappingURL=main.css.map */

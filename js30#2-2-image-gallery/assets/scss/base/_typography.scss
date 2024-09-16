@@ -1,0 +1,14 @@
+@import "../abstracts/placeholders";
+@import "../abstracts/variables";
+
+body {
+  font-weight: 400;
+  font-size: 1.6rem;
+   color: $color-primary-dark;
+  font-family: 'Protest Guerrilla', sans-serif;
+}
+
+.currYear {
+  color: $color-primary-dark;
+  font-size: 2.4rem;
+}

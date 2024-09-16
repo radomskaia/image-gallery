@@ -1,0 +1,14 @@
+@import "abstracts/placeholders";
+@import "abstracts/variables";
+@import "abstracts/ulitis";
+
+@import "base/base";
+@import "base/typography";
+
+@import "components/header";
+@import "components/gallery";
+@import "components/footer";
+
+.header {
+ width: clamp(100vw, 100vw, 128rem);
+}

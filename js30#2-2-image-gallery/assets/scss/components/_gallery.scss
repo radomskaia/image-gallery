@@ -1,0 +1,25 @@
+.img-wrapper {
+  overflow: hidden;
+  width: 100%;
+  height: fit-content;
+  border-radius: 1rem;
+}
+
+.img-item {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.grid {
+  display: grid;
+  //grid-template-columns: repeat(3, minmax(30rem, 1fr));
+  //grid-template-rows: repeat(1, 10rem);
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto;
+  column-gap: 2rem;
+  row-gap: 2rem;
+  grid-auto-flow: dense;
+  //align-items: center;
+}
+

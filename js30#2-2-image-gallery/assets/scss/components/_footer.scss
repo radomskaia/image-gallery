@@ -1,0 +1,12 @@
+//.icon {
+//  height: 5rem;
+//}
+
+.footer {
+  background: transparent;
+  @extend %flex;
+  @extend %flex-center;
+  gap: 5rem;
+  margin: 1rem 0;
+}
+

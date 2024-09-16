@@ -1,0 +1,28 @@
+@import "../abstracts/placeholders";
+@import "../abstracts/variables";
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  // 1 rem = 10px
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: 128rem;
+  @extend %flex;
+  margin: 0 auto;
+  padding: 2rem;
+}
