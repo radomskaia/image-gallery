@@ -1,0 +1,15 @@
+.flex {
+  display: flex;
+}
+
+.flex_justify-between {
+  justify-content: space-between;
+}
+
+.container {
+  width: 100%;
+  max-width: 156rem;
+  @extend %flex;
+  margin: 0 auto;
+  padding: 0 2rem;
+}

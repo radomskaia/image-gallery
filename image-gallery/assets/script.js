@@ -1,6 +1,7 @@
 const URL = "https://api.unsplash.com";
 const ACCESS_KEY = 'wSEvY-mEibQueTI6OUJSEt3kWPxmWbTC8wFcO2Nt1UM';
 const TYPE_OF_IMAGE = "photos";
+const DESCTOP_SCREEN_WIDTH = 704;
 const TABLET_SCREEN_WIDTH = 704;
 const PHONE_SCREEN_WIDTH = 480;
 
@@ -34,9 +35,9 @@ function createImg(imagesData) {
         const imgItem = document.createElement("img");
         imgItem.src = imagesObject.urls.small;
         imgItem.alt = imagesObject.alt_description;
-        const span = Math.ceil(imagesObject.height / imagesObject.width * 10)
+        const span = Math.ceil(imagesObject.height / imagesObject.width * 11)
         imgItem.classList.add("img-item")
-        imgWrapper.classList.add(`span_${span}`);
+        imgWrapper.style.gridRow = `span ${span}`;
         imgItem.setAttribute("data_id", imagesObject.id);
         imgWrapper.appendChild(imgItem);
 
@@ -77,7 +78,7 @@ switch (true) {
         imagesBox.style.gridTemplateColumns = "auto auto";
         break;
     default:
-        imagesBox.style.gridTemplateColumns = "auto auto auto";
+        imagesBox.style.gridTemplateColumns = "auto auto auto auto auto";
 }
 
 function changesForTabletWidth() {

@@ -1,3 +1,16 @@
+.header {
+  //width: clamp(100vw, 100vw, 128rem);
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: #fff;
+  padding: 2rem 0;
+  @extend %flex;
+  @extend %flex-center;
+
+}
+
 .icon {
   width: 2.4rem;
   height: 2.4rem;

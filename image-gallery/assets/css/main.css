@@ -1,8 +1,8 @@
-.footer, .container {
+.footer, .header, .container {
   display: flex;
 }
 
-.footer, .search-box {
+.footer, .search-box, .header {
   align-items: center;
   justify-content: center;
 }
@@ -15,75 +15,18 @@
   justify-content: space-between;
 }
 
-.span_4 {
-  grid-row: span 4;
+.container {
+  width: 100%;
+  max-width: 156rem;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-.span_5 {
-  grid-row: span 5;
-}
-
-.span_6 {
-  grid-row: span 6;
-}
-
-.span_7 {
-  grid-row: span 7;
-}
-
-.span_8 {
-  grid-row: span 8;
-}
-
-.span_9 {
-  grid-row: span 9;
-}
-
-.span_10 {
-  grid-row: span 10;
-}
-
-.span_11 {
-  grid-row: span 11;
-}
-
-.span_12 {
-  grid-row: span 12;
-}
-
-.span_13 {
-  grid-row: span 13;
-}
-
-.span_14 {
-  grid-row: span 14;
-}
-
-.span_15 {
-  grid-row: span 15;
-}
-
-.span_16 {
-  grid-row: span 16;
-}
-
-.span_17 {
-  grid-row: span 17;
-}
-
-.span_18 {
-  grid-row: span 18;
-}
-
-.span_19 {
-  grid-row: span 19;
-}
-
-.footer, .container {
+.footer, .header, .container {
   display: flex;
 }
 
-.footer, .search-box {
+.footer, .search-box, .header {
   align-items: center;
   justify-content: center;
 }
@@ -105,18 +48,11 @@ body {
   box-sizing: border-box;
 }
 
-.container {
-  width: 100%;
-  max-width: 128rem;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.footer, .container {
+.footer, .header, .container {
   display: flex;
 }
 
-.footer, .search-box {
+.footer, .search-box, .header {
   align-items: center;
   justify-content: center;
 }
@@ -131,6 +67,15 @@ body {
 .currYear {
   color: #16423C;
   font-size: 2.4rem;
+}
+
+.header {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: #fff;
+  padding: 2rem 0;
 }
 
 .icon {
@@ -177,7 +122,6 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: auto auto auto;
   grid-template-rows: auto auto;
   column-gap: 2rem;
   row-gap: 2rem;
@@ -186,11 +130,11 @@ body {
 }
 
 .icon-footer {
-  height: 5rem;
+  height: 3.5rem;
 }
 
 .footer {
-  width: clamp(100vw, 100vw, 128rem);
+  width: 100vw;
   gap: 5rem;
   padding: 1rem 0;
   position: fixed;
@@ -199,12 +143,9 @@ body {
   background-color: #fff;
 }
 
-.header {
-  width: clamp(100vw, 100vw, 128rem);
-  position: fixed;
-  top: 0;
-  z-index: 999;
-  background-color: #fff;
+.main {
+  margin-top: 8rem;
+  margin-bottom: 6rem;
 }
 
 /*# sourceMappingURL=main.css.map */

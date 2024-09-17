@@ -9,10 +9,7 @@
 @import "components/gallery";
 @import "components/footer";
 
-.header {
- width: clamp(100vw, 100vw, 128rem);
-  position: fixed;
-  top: 0;
-  z-index: 999;
- background-color: #fff;
+.main {
+  margin-top: 8rem;
+  margin-bottom: 6rem;
 }

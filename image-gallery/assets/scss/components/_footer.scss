@@ -1,9 +1,9 @@
 .icon-footer {
-  height: 5rem;
+  height: 3.5rem;
 }
 
 .footer {
-  width: clamp(100vw, 100vw, 128rem);
+  width: 100vw;
   @extend %flex;
   @extend %flex-center;
   gap: 5rem;
