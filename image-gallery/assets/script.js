@@ -1,3 +1,5 @@
+'use strict';
+
 const URL = "https://api.unsplash.com";
 const ACCESS_KEY = 'wSEvY-mEibQueTI6OUJSEt3kWPxmWbTC8wFcO2Nt1UM';
 const TYPE_OF_IMAGE = "photos";
@@ -5,6 +7,8 @@ const DESKTOP_SCREEN_WIDTH = 1216;
 const TABLET_L_SCREEN_WIDTH = 928;
 const TABLET_S_SCREEN_WIDTH = 704;
 const PHONE_SCREEN_WIDTH = 480;
+const AVERAGE_IMAGE_WIDTH = 250;
+const MAX_IMAGE_PER_PAGE = 30;
 
 const imagesBox = document.querySelector(".grid");
 const searchBtn = document.querySelector(".search-btn");
@@ -15,8 +19,8 @@ const mediaQueryListTabletS = window.matchMedia(`(max-width: ${TABLET_S_SCREEN_W
 const mediaQueryListPhone = window.matchMedia(`(max-width: ${PHONE_SCREEN_WIDTH}px)`);
 
 let pageNumber = 0;
-let imagesPerPage = 30;
-let isLoad, isSearch;
+let isLoad, isSearch, imagesPerPage, colsNumber;
+
 
 async function getData() {
     let searchValue = searchInput.value;
@@ -38,22 +42,26 @@ async function getData() {
     return imagesData;
 }
 
-
 async function renderData() {
-    const imagesData = await getData();
-    (searchInput.value ? imagesData.results : imagesData).forEach(imagesObject => {
-        const imgWrapper = document.createElement("div");
-        imgWrapper.classList.add("img-wrapper");
-        imagesBox.appendChild(imgWrapper);
-        const imgItem = document.createElement("img");
-        imgItem.src = imagesObject.urls.small;
-        imgItem.alt = imagesObject.alt_description;
-        const span = Math.ceil(imagesObject.height / imagesObject.width * 11)
-        imgItem.classList.add("img-item")
-        imgWrapper.style.gridRow = `span ${span}`;
-        imgItem.setAttribute("data_id", imagesObject.id);
-        imgWrapper.appendChild(imgItem);
-    })
+    const screenHeight = document.documentElement.clientHeight;
+    let documentHeight = imagesBox.getBoundingClientRect().bottom;
+    do {
+        const imagesData = await getData();
+        (searchInput.value ? imagesData.results : imagesData).forEach(imagesObject => {
+            const imgWrapper = document.createElement("div");
+            imgWrapper.classList.add("img-wrapper");
+            imagesBox.appendChild(imgWrapper);
+            const imgItem = document.createElement("img");
+            imgItem.src = imagesObject.urls.small;
+            imgItem.alt = imagesObject.alt_description;
+            const span = Math.ceil(imagesObject.height / imagesObject.width * 11)
+            imgItem.classList.add("img-item")
+            imgWrapper.style.gridRow = `span ${span}`;
+            imgItem.setAttribute("data_id", imagesObject.id);
+            imgWrapper.appendChild(imgItem);
+        })
+        documentHeight = imagesBox.getBoundingClientRect().bottom;
+    } while (documentHeight < screenHeight);
 }
 
 
@@ -71,28 +79,38 @@ async function searchQuery() {
     }
 }
 
-function changeGridColumns() {
+function setGridCols() {
     switch (true) {
         case mediaQueryListPhone.matches:
-            imagesBox.style.gridTemplateColumns = "auto";
+            colsNumber = 1;
             break;
         case mediaQueryListTabletS.matches:
-            imagesBox.style.gridTemplateColumns = "auto auto";
+            colsNumber = 2;
             break;
         case mediaQueryListTabletL.matches:
-            imagesBox.style.gridTemplateColumns = "auto auto auto";
+            colsNumber = 3;
             break;
         case mediaQueryListDesktop.matches:
-            imagesBox.style.gridTemplateColumns = "auto auto auto auto";
+            colsNumber = 4;
             break;
         default:
-            imagesBox.style.gridTemplateColumns = "auto auto auto auto auto";
+            colsNumber = 5;
     }
+    imagesBox.style.gridTemplateColumns = `repeat(${colsNumber}, auto)`;
+}
+
+function setImagesPerPageNumber() {
+    imagesPerPage = (Math.ceil((document.documentElement.clientHeight - 140) / AVERAGE_IMAGE_WIDTH) * colsNumber)
+    imagesPerPage = imagesPerPage > MAX_IMAGE_PER_PAGE ? MAX_IMAGE_PER_PAGE : imagesPerPage;
 }
 
 async function getNewPage() {
-    const heightForRequest = (imagesBox.scrollHeight - document.documentElement.clientHeight);
+    console.log('start');
+    const heightForRequest = (imagesBox.getBoundingClientRect().bottom - document.documentElement.clientHeight - AVERAGE_IMAGE_WIDTH);
+    console.log('heightForRequest', heightForRequest);
+    console.log('scrollY', scrollY);
     if (!isLoad && scrollY >= heightForRequest) {
+        console.log('render');
         isLoad = true
 
         await renderData()
@@ -102,19 +120,17 @@ async function getNewPage() {
 }
 
 
-
+setGridCols()
+setImagesPerPageNumber()
 await renderData()
-changeGridColumns()
+
 
 searchBtn.addEventListener("click", searchQuery);
 document.addEventListener("keydown", (e) => {
     if (e.key === "Enter") searchQuery()
 })
-mediaQueryListDesktop.addEventListener("change", changeGridColumns);
-mediaQueryListTabletL.addEventListener('change', changeGridColumns)
-mediaQueryListTabletS.addEventListener('change', changeGridColumns)
-mediaQueryListPhone.addEventListener('change', changeGridColumns)
+mediaQueryListDesktop.addEventListener("change", setGridCols);
+mediaQueryListTabletL.addEventListener('change', setGridCols)
+mediaQueryListTabletS.addEventListener('change', setGridCols)
+mediaQueryListPhone.addEventListener('change', setGridCols)
 window.addEventListener('scroll', getNewPage);
-
-
-

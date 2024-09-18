@@ -14,7 +14,7 @@
 
 .grid {
   display: grid;
-  grid-template-rows: auto auto;
+  grid-template-rows: repeat(2, auto);
   column-gap: 2rem;
   row-gap: 2rem;
   grid-auto-flow: dense;
