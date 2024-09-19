@@ -13,19 +13,20 @@ const MAX_IMAGE_PER_PAGE = 30;
 const imagesBox = document.querySelector(".grid");
 const searchBtn = document.querySelector(".search-btn");
 const searchInput = document.querySelector(".search-input");
+const errorMessage = document.querySelector(".error-message");
 const mediaQueryListDesktop = window.matchMedia(`(max-width: ${DESKTOP_SCREEN_WIDTH}px)`);
 const mediaQueryListTabletL = window.matchMedia(`(max-width: ${TABLET_L_SCREEN_WIDTH}px)`);
 const mediaQueryListTabletS = window.matchMedia(`(max-width: ${TABLET_S_SCREEN_WIDTH}px)`);
 const mediaQueryListPhone = window.matchMedia(`(max-width: ${PHONE_SCREEN_WIDTH}px)`);
 
 let pageNumber = 0;
-let isLoad, isSearch, imagesPerPage, colsNumber;
+let isLoad, imagesPerPage, colsNumber;
 
 
 async function getData() {
     let searchValue = searchInput.value;
     pageNumber++;
-    let fetchURL, result, imagesData;
+    let fetchURL, result, data;
     if (!searchValue) {
         fetchURL = `${URL}/${TYPE_OF_IMAGE}/?&page=${pageNumber}&per_page=${imagesPerPage}&client_id=${ACCESS_KEY}`;
     } else {
@@ -34,20 +35,31 @@ async function getData() {
 
     try {
         result = await fetch(fetchURL);
-        imagesData = await result.json();
+        if (result.status >= 400) {
+            throw new Error(result.status);
+        }
+        data = await result.json();
     } catch (error) {
-        console.log(error);
+        errorMessage.innerHTML = `${error} <br> Something went wrong. Try again later.`;
+        errorMessage.classList.add('visible');
+        return
     }
 
-    return imagesData;
+    return searchInput.value ? data.results : data;
 }
 
 async function renderData() {
     const screenHeight = document.documentElement.clientHeight;
     let documentHeight = imagesBox.getBoundingClientRect().bottom;
     do {
-        const imagesData = await getData();
-        (searchInput.value ? imagesData.results : imagesData).forEach(imagesObject => {
+        let imagesData = await getData();
+        if (errorMessage.classList.contains('visible')) return;
+        if (imagesData.length === 0) {
+            errorMessage.innerHTML = 'Nothing found matching your request. <br> Try another one.'
+            errorMessage.classList.add('visible');
+            return
+        }
+        (imagesData).forEach(imagesObject => {
             const imgWrapper = document.createElement("div");
             imgWrapper.classList.add("img-wrapper");
             imagesBox.appendChild(imgWrapper);
@@ -66,17 +78,10 @@ async function renderData() {
 
 
 async function searchQuery() {
-    if (isSearch) {
-        searchInput.value = '';
-        searchBtn.src = "assets/img/icons/icons8-search-48.png";
-        isSearch = false;
-    } else {
-        imagesBox.innerHTML = '';
-        pageNumber = 0;
-        await renderData()
-        searchBtn.src = "assets/img/icons/icons8-close-50.png";
-        isSearch = true;
-    }
+    errorMessage.classList.remove('visible');
+    imagesBox.innerHTML = '';
+    pageNumber = 0;
+    await renderData()
 }
 
 function setGridCols() {
@@ -105,12 +110,8 @@ function setImagesPerPageNumber() {
 }
 
 async function getNewPage() {
-    console.log('start');
     const heightForRequest = (imagesBox.getBoundingClientRect().bottom - document.documentElement.clientHeight - AVERAGE_IMAGE_WIDTH);
-    console.log('heightForRequest', heightForRequest);
-    console.log('scrollY', scrollY);
     if (!isLoad && scrollY >= heightForRequest) {
-        console.log('render');
         isLoad = true
 
         await renderData()

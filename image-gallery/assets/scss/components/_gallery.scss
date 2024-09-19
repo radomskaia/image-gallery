@@ -21,3 +21,16 @@
   justify-items: center;
 }
 
+.error-message {
+  font-family: Montserrat, sans-serif;
+  text-align: center;
+  align-self: center;
+  font-size: 3.6rem;
+  margin-top: 3rem;
+  display: none;
+
+}
+
+.visible {
+  display: block;
+}

@@ -19,4 +19,6 @@ body {
   box-sizing: border-box;
 }
 
-
+*:focus {
+  outline: 3px solid $color-primary-dark;
+}
