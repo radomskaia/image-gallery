@@ -14,13 +14,14 @@ const imagesBox = document.querySelector(".grid");
 const searchBtn = document.querySelector(".search-btn");
 const searchInput = document.querySelector(".search-input");
 const errorMessage = document.querySelector(".error-message");
+const popupWrapper = document.querySelector(".popup-wrapper");
 const popup = document.querySelector(".popup");
 const mediaQueryListDesktop = window.matchMedia(`(max-width: ${DESKTOP_SCREEN_WIDTH}px)`);
 const mediaQueryListTabletL = window.matchMedia(`(max-width: ${TABLET_L_SCREEN_WIDTH}px)`);
 const mediaQueryListTabletS = window.matchMedia(`(max-width: ${TABLET_S_SCREEN_WIDTH}px)`);
 const mediaQueryListPhone = window.matchMedia(`(max-width: ${PHONE_SCREEN_WIDTH}px)`);
 let pageNumber = 0;
-let isLoad, imagesPerPage, colsNumber, allPhotosBigURL = {};
+let isLoad, isLoading, imagesPerPage, colsNumber, allPhotosBigURL = {};
 
 
 async function getData() {
@@ -160,12 +161,14 @@ async function renderData() {
                 appendParent: authorBlock,
                 textContent: 'Posted by',
             });
+            let authorName = imagesObject.user.name;
+            authorName = authorName.length > 20 ? authorName.slice(0, 20) + '...' : authorName;
             createDOMElement(
                 {
                     tagName: "a",
                     appendParent: authorBlock,
                     classList: 'link',
-                    textContent: imagesObject.user.name,
+                    textContent: authorName,
                     attributes: {
                         href: `https://www.instagram.com/${imagesObject.user.social.instagram_username}`,
                         target: "_blank"
@@ -174,7 +177,10 @@ async function renderData() {
             )
             const span = Math.ceil(imagesObject.height / imagesObject.width * 11)
             imgWrapper.style.gridRow = `span ${span}`;
-            allPhotosBigURL[imagesObject.id] = imagesObject.urls.raw;
+            allPhotosBigURL[imagesObject.id] = {
+                src: imagesObject.urls.regular,
+                alt: imagesObject.alt_description
+            };
             imgItem.setAttribute("data_id", imagesObject.id);
         })
         documentHeight = imagesBox.getBoundingClientRect().bottom;
@@ -226,6 +232,26 @@ async function getNewPage() {
     }
 }
 
+function popupShow(e) {
+    const target = e.target.closest('.img-item');
+    if (target) {
+        console.log(target);
+        popup.src = allPhotosBigURL[e.target.getAttribute('data_id')].src;
+        popup.alt = allPhotosBigURL[e.target.getAttribute('data_id')].alt;
+        popupWrapper.classList.add('visible');
+        document.body.style.overflowY = 'hidden';
+    }
+}
+
+function popupClose(e) {
+    const target = e.target.closest('.popup-wrapper');
+    if (target) {
+        popup.src = ''
+        popup.alt = '';
+        popupWrapper.classList.remove('visible');
+        document.body.style.overflowY = '';
+    }
+}
 
 setGridCols()
 setImagesPerPageNumber()
@@ -241,5 +267,5 @@ mediaQueryListTabletL.addEventListener('change', setGridCols)
 mediaQueryListTabletS.addEventListener('change', setGridCols)
 mediaQueryListPhone.addEventListener('change', setGridCols)
 window.addEventListener('scroll', getNewPage);
-
-
+imagesBox.addEventListener("click", popupShow);
+popupWrapper.addEventListener("click", popupClose);

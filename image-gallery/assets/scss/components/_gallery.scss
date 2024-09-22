@@ -21,26 +21,28 @@
   top: -45px;
 }
 
-
-.img-wrapper:hover {
-  cursor: zoom-in;
-}
-
-.img-wrapper:hover .icons-block {
-  pointer-events: auto;
-  opacity: 1;
-  top:0;
-}
-
 .author-block {
   bottom: -40px;
 }
 
-.img-wrapper:hover .author-block {
-  pointer-events: auto;
-  opacity: 1;
-  bottom: 0;
+.img-wrapper:hover {
+  cursor: zoom-in;
+
+  & .float-block {
+    pointer-events: auto;
+    opacity: 1;
+    cursor: auto;
+  }
+
+  & .icons-block {
+    top: 0;
+  }
+
+  & .author-block {
+    bottom: 0;
+  }
 }
+
 
 .likesContainer {
 
@@ -66,10 +68,6 @@
 
 }
 
-.visible {
-  display: block;
-}
-
 .link:link {
   letter-spacing: 1px;
   text-decoration: none;
@@ -84,4 +82,8 @@
 
 .link:visited {
   color: rgb(66, 22, 39);
+}
+
+.visible {
+  display: flex;
 }

@@ -1,47 +1,23 @@
-//.popup-wrapper {
-//  width: 100%;
-//  height: 100dvh;
-//  backdrop-filter: brightness(50%);
-//  position: fixed;
-//  top: 0;
-//  left: 0;
-//  z-index: 1998;
-//  display: none;
-//}
-//
-//.popup {
-//  max-width: 100vw;
-//  max-height: 100dvh;
-//  padding: 1rem;
-//  object-fit: cover;
-//  border-radius: 1rem;
-//   z-index: 1999;
-//}
+.popup-wrapper {
+  width: 100%;
+  height: 100dvh;
+  backdrop-filter: brightness(15%);
+  position: fixed;
+  padding: 2rem;
+  top: 0;
+  left: 0;
+  z-index: 1998;
+  display: none;
+}
 
-//
-//.popup-img-box {
-//  //width: clamp(50vw, 500px, 90vw);
-//  height: clamp(50vw, 500px, 90vw);
-////}
-//
-//.icon-s {
-//  width: 24px;
-//}
-//
-////.icon-author {
-////  width: 6.4rem;
-////  height: 6.4rem;
-////  border-radius: 50%;
-////}
-//
-//.popup-description {
-//  gap: 1rem;
-//  width: 100%;
-//}
-//
-//.photos-date {
-//  margin-left: auto;
-//
-//}
-//
+.popup {
+  max-width: 95vw;
+  max-height: 95dvh;
+  object-fit: cover;
+  border-radius: 1rem;
+   z-index: 1999;
+}
 
+.popup:hover {
+  cursor: zoom-out;
+}
