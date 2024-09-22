@@ -2,8 +2,22 @@
   display: flex;
 }
 
+.flex_center {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex_align-center {
+  align-items: center;
+}
+
 .flex_justify-between {
   justify-content: space-between;
+}
+
+
+.flex_column {
+  flex-direction: column;
 }
 
 .container {
@@ -12,4 +26,15 @@
   @extend %flex;
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+.img-item {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.icon {
+  width: 2.4rem;
+  height: 2.4rem;
 }

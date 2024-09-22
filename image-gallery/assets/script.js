@@ -14,13 +14,13 @@ const imagesBox = document.querySelector(".grid");
 const searchBtn = document.querySelector(".search-btn");
 const searchInput = document.querySelector(".search-input");
 const errorMessage = document.querySelector(".error-message");
+const popup = document.querySelector(".popup");
 const mediaQueryListDesktop = window.matchMedia(`(max-width: ${DESKTOP_SCREEN_WIDTH}px)`);
 const mediaQueryListTabletL = window.matchMedia(`(max-width: ${TABLET_L_SCREEN_WIDTH}px)`);
 const mediaQueryListTabletS = window.matchMedia(`(max-width: ${TABLET_S_SCREEN_WIDTH}px)`);
 const mediaQueryListPhone = window.matchMedia(`(max-width: ${PHONE_SCREEN_WIDTH}px)`);
-
 let pageNumber = 0;
-let isLoad, imagesPerPage, colsNumber;
+let isLoad, imagesPerPage, colsNumber, allPhotosBigURL = {};
 
 
 async function getData() {
@@ -48,6 +48,33 @@ async function getData() {
     return searchInput.value ? data.results : data;
 }
 
+function createDOMElement(option) {
+    let {
+        tagName = 'div',
+        appendParent = null,
+        classList = '',
+        textContent = '',
+        attributes = {},
+
+    } = option;
+    const element = document.createElement(tagName);
+    appendParent.append(element);
+    if (classList) {
+        classList = classList.split(" ");
+        classList.forEach(newClass => {
+                element.classList.add(newClass)
+            }
+        );
+    }
+    if (textContent) {
+        element.textContent = textContent;
+    }
+    for (let key in attributes) {
+        element.setAttribute(key, attributes[key]);
+    }
+    return element;
+}
+
 async function renderData() {
     const screenHeight = document.documentElement.clientHeight;
     let documentHeight = imagesBox.getBoundingClientRect().bottom;
@@ -60,20 +87,99 @@ async function renderData() {
             return
         }
         (imagesData).forEach(imagesObject => {
-            const imgWrapper = document.createElement("div");
-            imgWrapper.classList.add("img-wrapper");
-            imagesBox.appendChild(imgWrapper);
-            const imgItem = document.createElement("img");
-            imgItem.src = imagesObject.urls.small;
-            imgItem.alt = imagesObject.alt_description;
+            console.log(imagesObject)
+            const imgWrapper = createDOMElement({
+                appendParent: imagesBox,
+                classList: "img-wrapper"
+            });
+            const iconsBlock = createDOMElement({
+                appendParent: imgWrapper,
+                classList: 'float-block icons-block flex flex_justify-between flex_align-center'
+            });
+            const likesContainer = createDOMElement({
+                appendParent: iconsBlock,
+                classList: 'likesContainer flex flex_align-center'
+            });
+            createDOMElement({
+                tagName: "p",
+                appendParent: likesContainer,
+                classList: 'likes-numbers',
+                textContent: imagesObject.likes
+            });
+            createDOMElement({
+                tagName: "img",
+                appendParent: likesContainer,
+                classList: 'icon',
+                attributes: {
+                    alt: "like's icon",
+                    src: "assets/img/icons/icons8-like-50.png"
+                },
+            });
+            const postedDate = imagesObject.promoted_at ? new Date(imagesObject.promoted_at).toLocaleDateString(navigator.language) : '';
+            createDOMElement({
+                tagName: "p",
+                appendParent: iconsBlock,
+                textContent: postedDate,
+            });
+            const downloadBtn = createDOMElement({
+                tagName: "a",
+                appendParent: iconsBlock,
+                classList: 'link flex flex_align-center',
+                attributes: {
+                    href: imagesObject.links.download,
+                    target: "_blank"
+                }
+            });
+            createDOMElement({
+                tagName: "img",
+                appendParent: downloadBtn,
+                classList: 'icon' +
+                    '',
+                attributes: {
+                    src: "assets/img/icons/icons8-download-48.png",
+                    alt: "download icon"
+                }
+            });
+
+            const imgItem = createDOMElement({
+                tagName: "img",
+                appendParent: imgWrapper,
+                classList: "img-item",
+                attributes: {
+                    src: imagesObject.urls.small,
+                    alt: imagesObject.alt_description
+                }
+            });
+
+            const authorBlock = createDOMElement({
+                appendParent: imgWrapper,
+                classList: 'float-block author-block flex flex_justify-between flex_align-center'
+            });
+            createDOMElement({
+                tagName: "p",
+                appendParent: authorBlock,
+                textContent: 'Posted by',
+            });
+            createDOMElement(
+                {
+                    tagName: "a",
+                    appendParent: authorBlock,
+                    classList: 'link',
+                    textContent: imagesObject.user.name,
+                    attributes: {
+                        href: `https://www.instagram.com/${imagesObject.user.social.instagram_username}`,
+                        target: "_blank"
+                    }
+                }
+            )
             const span = Math.ceil(imagesObject.height / imagesObject.width * 11)
-            imgItem.classList.add("img-item")
             imgWrapper.style.gridRow = `span ${span}`;
+            allPhotosBigURL[imagesObject.id] = imagesObject.urls.raw;
             imgItem.setAttribute("data_id", imagesObject.id);
-            imgWrapper.appendChild(imgItem);
         })
         documentHeight = imagesBox.getBoundingClientRect().bottom;
-    } while (documentHeight < screenHeight);
+    }
+    while (documentHeight < screenHeight) ;
 }
 
 
@@ -135,3 +241,5 @@ mediaQueryListTabletL.addEventListener('change', setGridCols)
 mediaQueryListTabletS.addEventListener('change', setGridCols)
 mediaQueryListPhone.addEventListener('change', setGridCols)
 window.addEventListener('scroll', getNewPage);
+
+
