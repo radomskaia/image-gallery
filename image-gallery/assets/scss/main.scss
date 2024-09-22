@@ -6,7 +6,7 @@
 @import "base/typography";
 
 @import "components/header";
-@import "components/popup";
+@import "components/popup&preloader";
 @import "components/gallery";
 @import "components/footer";
 
@@ -14,5 +14,4 @@
   margin-top: 8rem;
   margin-bottom: 6rem;
   flex-direction: column;
-
 }

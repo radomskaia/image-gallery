@@ -14,7 +14,7 @@
   padding: 0.5rem;
   opacity: 0;
   pointer-events: none;
-  transition: all 0.5s;
+  transition: all 0.5s 0.2s;
 }
 
 .icons-block {
@@ -24,25 +24,6 @@
 .author-block {
   bottom: -40px;
 }
-
-.img-wrapper:hover {
-  cursor: zoom-in;
-
-  & .float-block {
-    pointer-events: auto;
-    opacity: 1;
-    cursor: auto;
-  }
-
-  & .icons-block {
-    top: 0;
-  }
-
-  & .author-block {
-    bottom: 0;
-  }
-}
-
 
 .likesContainer {
 
@@ -86,4 +67,25 @@
 
 .visible {
   display: flex;
+}
+
+@media (hover: hover) {
+  .img-wrapper:hover {
+    cursor: zoom-in;
+
+    & .float-block {
+      pointer-events: auto;
+      opacity: 1;
+      cursor: auto;
+    }
+
+    & .icons-block {
+      top: 0;
+    }
+
+    & .author-block {
+      bottom: 0;
+    }
+  }
+
 }

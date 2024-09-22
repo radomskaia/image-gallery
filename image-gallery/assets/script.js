@@ -16,6 +16,7 @@ const searchInput = document.querySelector(".search-input");
 const errorMessage = document.querySelector(".error-message");
 const popupWrapper = document.querySelector(".popup-wrapper");
 const popup = document.querySelector(".popup");
+const preloader = document.querySelector(".preloader");
 const mediaQueryListDesktop = window.matchMedia(`(max-width: ${DESKTOP_SCREEN_WIDTH}px)`);
 const mediaQueryListTabletL = window.matchMedia(`(max-width: ${TABLET_L_SCREEN_WIDTH}px)`);
 const mediaQueryListTabletS = window.matchMedia(`(max-width: ${TABLET_S_SCREEN_WIDTH}px)`);
@@ -41,8 +42,13 @@ async function getData() {
         }
         data = await result.json();
     } catch (error) {
-        errorMessage.innerHTML = `${error} <br> Something went wrong. Try again later.`;
+        if (pageNumber > 1 && error.toLocaleString().includes('403')) {
+            errorMessage.innerHTML = 'Nothing found matching your request. <br> Try another one.'
+        } else {
+            errorMessage.innerHTML = `${error} <br> Something went wrong. Try again later.`;
+        }
         errorMessage.classList.add('visible');
+        pageNumber--;
         return
     }
 
@@ -221,15 +227,25 @@ function setImagesPerPageNumber() {
     imagesPerPage = imagesPerPage > MAX_IMAGE_PER_PAGE ? MAX_IMAGE_PER_PAGE : imagesPerPage;
 }
 
-async function getNewPage() {
+async function getNewPage(e) {
     const heightForRequest = (imagesBox.getBoundingClientRect().bottom - document.documentElement.clientHeight - AVERAGE_IMAGE_WIDTH);
+    if (isLoad && scrollY >= imagesBox.getBoundingClientRect().bottom) {preloaderShow()}
+    if (isLoad && scrollY <= imagesBox.getBoundingClientRect().bottom) {preloaderHide()}
     if (!isLoad && scrollY >= heightForRequest) {
-        isLoad = true
+        isLoad = true;
 
         await renderData()
-        pageNumber++;
         isLoad = false;
+        preloaderHide()
     }
+}
+
+function preloaderShow() {
+    preloader.classList.add('visible');
+}
+
+function preloaderHide() {
+    preloader.classList.remove('visible');
 }
 
 function popupShow(e) {
@@ -255,7 +271,7 @@ function popupClose(e) {
 
 setGridCols()
 setImagesPerPageNumber()
-await renderData()
+await getNewPage(1)
 
 
 searchBtn.addEventListener("click", searchQuery);
