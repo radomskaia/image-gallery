@@ -9,6 +9,7 @@ const TABLET_S_SCREEN_WIDTH = 704;
 const PHONE_SCREEN_WIDTH = 480;
 const AVERAGE_IMAGE_WIDTH = 250;
 const MAX_IMAGE_PER_PAGE = 30;
+const SLICED_NAME_LENGTH = 15;
 
 const imagesBox = document.querySelector(".grid");
 const searchBtn = document.querySelector(".search-btn");
@@ -22,7 +23,7 @@ const mediaQueryListTabletL = window.matchMedia(`(max-width: ${TABLET_L_SCREEN_W
 const mediaQueryListTabletS = window.matchMedia(`(max-width: ${TABLET_S_SCREEN_WIDTH}px)`);
 const mediaQueryListPhone = window.matchMedia(`(max-width: ${PHONE_SCREEN_WIDTH}px)`);
 let pageNumber = 0;
-let isLoad, isLoading, imagesPerPage, colsNumber, allPhotosBigURL = {};
+let isLoad, imagesPerPage, colsNumber, allPhotosBigURL = {};
 
 
 async function getData() {
@@ -93,105 +94,109 @@ async function renderData() {
             errorMessage.classList.add('visible');
             return
         }
-        (imagesData).forEach(imagesObject => {
-            console.log(imagesObject)
-            const imgWrapper = createDOMElement({
-                appendParent: imagesBox,
-                classList: "img-wrapper"
-            });
-            const iconsBlock = createDOMElement({
-                appendParent: imgWrapper,
-                classList: 'float-block icons-block flex flex_justify-between flex_align-center'
-            });
-            const likesContainer = createDOMElement({
-                appendParent: iconsBlock,
-                classList: 'likesContainer flex flex_align-center'
-            });
-            createDOMElement({
-                tagName: "p",
-                appendParent: likesContainer,
-                classList: 'likes-numbers',
-                textContent: imagesObject.likes
-            });
-            createDOMElement({
-                tagName: "img",
-                appendParent: likesContainer,
-                classList: 'icon',
-                attributes: {
-                    alt: "like's icon",
-                    src: "assets/img/icons/icons8-like-50.png"
-                },
-            });
-            const postedDate = imagesObject.promoted_at ? new Date(imagesObject.promoted_at).toLocaleDateString(navigator.language) : '';
-            createDOMElement({
-                tagName: "p",
-                appendParent: iconsBlock,
-                textContent: postedDate,
-            });
-            const downloadBtn = createDOMElement({
-                tagName: "a",
-                appendParent: iconsBlock,
-                classList: 'link flex flex_align-center',
-                attributes: {
-                    href: imagesObject.links.download,
-                    target: "_blank"
-                }
-            });
-            createDOMElement({
-                tagName: "img",
-                appendParent: downloadBtn,
-                classList: 'icon' +
-                    '',
-                attributes: {
-                    src: "assets/img/icons/icons8-download-48.png",
-                    alt: "download icon"
-                }
-            });
-
-            const imgItem = createDOMElement({
-                tagName: "img",
-                appendParent: imgWrapper,
-                classList: "img-item",
-                attributes: {
-                    src: imagesObject.urls.small,
-                    alt: imagesObject.alt_description
-                }
-            });
-
-            const authorBlock = createDOMElement({
-                appendParent: imgWrapper,
-                classList: 'float-block author-block flex flex_justify-between flex_align-center'
-            });
-            createDOMElement({
-                tagName: "p",
-                appendParent: authorBlock,
-                textContent: 'Posted by',
-            });
-            let authorName = imagesObject.user.name;
-            authorName = authorName.length > 20 ? authorName.slice(0, 20) + '...' : authorName;
-            createDOMElement(
-                {
-                    tagName: "a",
-                    appendParent: authorBlock,
-                    classList: 'link',
-                    textContent: authorName,
+        // console.log(imagesData);
+        imagesData.forEach(imagesObject => {
+                // for (let imagesObject of imagesData) {
+                const imgWrapper = createDOMElement({
+                    appendParent: imagesBox,
+                    classList: "img-wrapper"
+                });
+                const iconsBlock = createDOMElement({
+                    appendParent: imgWrapper,
+                    classList: 'float-block icons-block flex flex_justify-between flex_align-center'
+                });
+                const likesContainer = createDOMElement({
+                    appendParent: iconsBlock,
+                    classList: 'likesContainer flex flex_align-center'
+                });
+                createDOMElement({
+                    tagName: "p",
+                    appendParent: likesContainer,
+                    classList: 'likes-numbers',
+                    textContent: imagesObject.likes
+                });
+                createDOMElement({
+                    tagName: "img",
+                    appendParent: likesContainer,
+                    classList: 'icon',
                     attributes: {
-                        href: `https://www.instagram.com/${imagesObject.user.social.instagram_username}`,
+                        alt: "like's icon",
+                        src: "assets/img/icons/icons8-like-50.png"
+                    },
+                });
+                const postedDate = imagesObject.promoted_at ? new Date(imagesObject.promoted_at).toLocaleDateString(navigator.language) : '';
+                createDOMElement({
+                    tagName: "p",
+                    appendParent: iconsBlock,
+                    textContent: postedDate,
+                });
+                const downloadBtn = createDOMElement({
+                    tagName: "a",
+                    appendParent: iconsBlock,
+                    classList: 'link flex flex_align-center',
+                    attributes: {
+                        href: imagesObject.links.download,
                         target: "_blank"
                     }
-                }
-            )
-            const span = Math.ceil(imagesObject.height / imagesObject.width * 11)
-            imgWrapper.style.gridRow = `span ${span}`;
-            allPhotosBigURL[imagesObject.id] = {
-                src: imagesObject.urls.regular,
-                alt: imagesObject.alt_description
-            };
-            imgItem.setAttribute("data_id", imagesObject.id);
-        })
+                });
+                createDOMElement({
+                    tagName: "img",
+                    appendParent: downloadBtn,
+                    classList: 'icon' +
+                        '',
+                    attributes: {
+                        src: "assets/img/icons/icons8-download-48.png",
+                        alt: "download icon"
+                    }
+                });
+
+                const imgItem = createDOMElement({
+                    tagName: "img",
+                    appendParent: imgWrapper,
+                    classList: "img-item",
+                    attributes: {
+                        src: imagesObject.urls.small,
+                        alt: imagesObject.alt_description
+                    }
+                });
+
+                const authorBlock = createDOMElement({
+                    appendParent: imgWrapper,
+                    classList: 'float-block author-block flex flex_justify-between flex_align-center'
+                });
+                createDOMElement({
+                    tagName: "p",
+                    appendParent: authorBlock,
+                    textContent: 'Posted by',
+                });
+                let authorName = imagesObject.user.name;
+                authorName = authorName.length > SLICED_NAME_LENGTH ? authorName.slice(0, SLICED_NAME_LENGTH) + '...' : authorName;
+                createDOMElement(
+                    {
+                        tagName: "a",
+                        appendParent: authorBlock,
+                        classList: 'link',
+                        textContent: authorName,
+                        attributes: {
+                            href: `https://www.instagram.com/${imagesObject.user.social.instagram_username}`,
+                            target: "_blank"
+                        }
+                    }
+                )
+                const span = Math.ceil(imagesObject.height / imagesObject.width * 11)
+                imgWrapper.style.gridRow = `span ${span}`;
+                allPhotosBigURL[imagesObject.id] = {
+                    src: imagesObject.urls.regular,
+                    alt: imagesObject.alt_description
+                };
+                imgItem.setAttribute("data_id", imagesObject.id);
+
+            }
+        )
         documentHeight = imagesBox.getBoundingClientRect().bottom;
     }
     while (documentHeight < screenHeight) ;
+
 }
 
 
@@ -203,6 +208,7 @@ async function searchQuery() {
 }
 
 function setGridCols() {
+    const oldColsNumber = colsNumber
     switch (true) {
         case mediaQueryListPhone.matches:
             colsNumber = 1;
@@ -220,18 +226,21 @@ function setGridCols() {
             colsNumber = 5;
     }
     imagesBox.style.gridTemplateColumns = `repeat(${colsNumber}, auto)`;
+    if (oldColsNumber < colsNumber) getNewPage();
 }
 
 function setImagesPerPageNumber() {
-    imagesPerPage = (Math.ceil((document.documentElement.clientHeight - 140) / AVERAGE_IMAGE_WIDTH) * colsNumber)
+    imagesPerPage = (Math.ceil((document.documentElement.clientHeight) / AVERAGE_IMAGE_WIDTH) * colsNumber)
     imagesPerPage = imagesPerPage > MAX_IMAGE_PER_PAGE ? MAX_IMAGE_PER_PAGE : imagesPerPage;
 }
 
-async function getNewPage(e) {
+async function getNewPage() {
     const heightForRequest = (imagesBox.getBoundingClientRect().bottom - document.documentElement.clientHeight - AVERAGE_IMAGE_WIDTH);
-    if (isLoad && scrollY >= imagesBox.getBoundingClientRect().bottom) {preloaderShow()}
-    if (isLoad && scrollY <= imagesBox.getBoundingClientRect().bottom) {preloaderHide()}
+    if (isLoad && scrollY >= imagesBox.getBoundingClientRect().bottom) preloaderShow();
+    if (isLoad && scrollY < imagesBox.getBoundingClientRect().bottom) preloaderHide();
+
     if (!isLoad && scrollY >= heightForRequest) {
+        preloaderShow()
         isLoad = true;
 
         await renderData()
@@ -251,7 +260,7 @@ function preloaderHide() {
 function popupShow(e) {
     const target = e.target.closest('.img-item');
     if (target) {
-        console.log(target);
+        preloaderShow()
         popup.src = allPhotosBigURL[e.target.getAttribute('data_id')].src;
         popup.alt = allPhotosBigURL[e.target.getAttribute('data_id')].alt;
         popupWrapper.classList.add('visible');
@@ -266,6 +275,7 @@ function popupClose(e) {
         popup.alt = '';
         popupWrapper.classList.remove('visible');
         document.body.style.overflowY = '';
+        preloaderHide()
     }
 }
 
@@ -285,3 +295,5 @@ mediaQueryListPhone.addEventListener('change', setGridCols)
 window.addEventListener('scroll', getNewPage);
 imagesBox.addEventListener("click", popupShow);
 popupWrapper.addEventListener("click", popupClose);
+popup.addEventListener("load", preloaderHide);
+// window.addEventListener('load', preloaderShow);
