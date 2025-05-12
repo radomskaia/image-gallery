@@ -94,9 +94,7 @@ async function renderData() {
             errorMessage.classList.add('visible');
             return
         }
-        // console.log(imagesData);
         imagesData.forEach(imagesObject => {
-                // for (let imagesObject of imagesData) {
                 const imgWrapper = createDOMElement({
                     appendParent: imagesBox,
                     classList: "img-wrapper"
@@ -235,17 +233,13 @@ function setImagesPerPageNumber() {
 }
 
 async function getNewPage() {
-    const heightForRequest = (imagesBox.getBoundingClientRect().bottom - document.documentElement.clientHeight - AVERAGE_IMAGE_WIDTH);
-    // if (isLoad && scrollY >= imagesBox.getBoundingClientRect().bottom) preloaderShow();
-    // if (isLoad && scrollY < imagesBox.getBoundingClientRect().bottom) preloaderHide();
+    const heightForRequest = (imagesBox.getBoundingClientRect().bottom - document.documentElement.clientHeight - AVERAGE_IMAGE_WIDTH)
 
     if (!isLoad && scrollY >= heightForRequest) {
-        // preloaderShow()
         isLoad = true;
 
         await renderData()
         isLoad = false;
-        // preloaderHide()
     }
 }
 
@@ -296,17 +290,3 @@ window.addEventListener('scroll', getNewPage);
 imagesBox.addEventListener("click", popupShow);
 popupWrapper.addEventListener("click", popupClose);
 popup.addEventListener("load", preloaderHide);
-// window.addEventListener('load', preloaderShow);
-
-console.log(
-    ` Реализован весь функционал по ТЗ  
-    Доп. функционал: 
-    - инфинити скролл (При усиленной проверке может закончиться лимит запросов)
-    - Ховер с количеством лайков, автором (ссылка на инсту) и кнопкой скачать (в новом окне открывается изоображение в хорошем качестве)
-    - Попап с картинкой
-    - Прелоадер при открытии попапа (виден, если замедлить скорость интернета)
-    - Вывод ошибки на экран с просьбой попробовать снова позже (если проблемы на стороне API)
-    - Вывод сообщения, что по запросу ничего не найдено (можно увидеть, введя крокозябру в строке поиска)  
-    - Так же определяется высота экрана и загружается только необходимое количество картинок, чтобы заполнить высоту и ширину. При увеличении ширины экрана (например, с мобильной версии, когда загружено несколько картинок) - происходит дозагрузка 
-    `
-)
